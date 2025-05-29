@@ -1,0 +1,70 @@
+.multiDropdown {
+  width: 357px;
+  position: relative;
+  display: inline-block;
+  font-family: inherit;
+  margin-bottom: 24px;
+
+  .control {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+
+    &.focus {
+      border: 1px solid #ef4444; // red border
+      box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3); // soft red shadow
+    }
+
+    &.disabled {
+      background-color: #f9fafb;
+      color: #9ca3af;
+      cursor: not-allowed;
+    }
+  }
+
+  .selectedValues {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .arrow {
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+  }
+
+  .item {
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: #f3f4f6;
+    }
+
+    &.selected {
+      background-color: #e5e7eb;
+    }
+  }
+}

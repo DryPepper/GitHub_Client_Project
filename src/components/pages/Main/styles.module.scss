@@ -1,0 +1,7 @@
+@use 'styles/mixins' as *;
+
+.mainRoot {
+  height: 100%;
+
+  overflow: auto;
+}

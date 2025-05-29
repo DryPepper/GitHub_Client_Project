@@ -1,0 +1,27 @@
+.input {
+  width: 295px;
+  height: 50px;
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #ef4444;
+    box-shadow: 0 0 0 1px #ef4444;
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+.disabled {
+  background-color: #f9fafb;
+  border-color: #e5e7eb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}

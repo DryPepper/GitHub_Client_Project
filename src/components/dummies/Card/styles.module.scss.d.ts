@@ -1,0 +1,9 @@
+export declare const cardRoot: string
+export declare const repoAvatar: string
+export declare const repoContent: string
+export declare const repoMeta: string
+export declare const repoName: string
+export declare const repoSeparator: string
+export declare const repoStars: string
+export declare const repoUpdated: string
+export declare const repoUser: string

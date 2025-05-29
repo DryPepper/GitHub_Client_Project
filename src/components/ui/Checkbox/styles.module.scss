@@ -1,0 +1,61 @@
+.checkboxLabel {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.checkboxInput {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.checkboxCustom {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+
+.checkboxInput:focus + .checkboxCustom {
+  border-color: #ef4444;
+}
+
+
+.checkboxInput:checked + .checkboxCustom {
+  border-color: #ef4444;
+  background-color: #fff;
+
+  &::after {
+    content: '✔';
+    color: #ef4444;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+  }
+}
+
+
+.checkboxInput:disabled + .checkboxCustom {
+  border-color: #e5e7eb;
+  background-color: #f9fafb;
+  cursor: not-allowed;
+
+  &::after {
+    content: '✔';
+    color: #fca5a5;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+  }
+}

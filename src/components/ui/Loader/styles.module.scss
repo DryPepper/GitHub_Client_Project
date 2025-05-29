@@ -1,0 +1,53 @@
+.loaderRoot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loaderIcon {
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+
+.loader_size_l {
+  width: 48px;
+  height: 48px;
+}
+
+.loader_size_m {
+  width: 32px;
+  height: 32px;
+}
+
+.loader_size_s {
+  width: 16px;
+  height: 16px;
+}
+
+
+.loader_color_first {
+  stroke: #ef4444; // red
+}
+
+.loader_color_second {
+  stroke: #3b82f6; // blue
+}
+
+.loader_color_third {
+  stroke: #10b981; // green
+}
+
+.loader_color_fourth {
+  stroke: #f59e0b; // amber
+}
+
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

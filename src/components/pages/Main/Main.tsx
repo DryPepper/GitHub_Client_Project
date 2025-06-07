@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import Button from 'components/ui/Button';
 import Input from 'components/ui/Input';
-import MultiDropdown from 'components/ui/MultiDropdown';
 import Loader from 'components/ui/Loader';
 import Card from 'components/dummies/Card';
+
 interface Props {
   children: React.ReactNode;
 }
@@ -17,11 +17,6 @@ interface RepoDetailsProps {
 const fetchReposByOrg = async (orgName: string) => {
   const res = await fetch(`https://api.github.com/orgs/${orgName}/repos`);
   if (!res.ok) throw new Error('Failed to fetch organization repos');
-  return res.json();
-};
-const fetchReposByUser = async (username: string) => {
-  const res = await fetch(`https://api.github.com/users/${username}/repos`);
-  if (!res.ok) throw new Error('Failed to fetch user repos');
   return res.json();
 };
 
@@ -54,13 +49,6 @@ const RepoDetails: React.FC<RepoDetailsProps> = ({ onBack, repo }) => {
 };
 
 const Main: React.FC<Props> = ({ children }) => {
-  interface SearchOption {
-    label: string;
-    value: string;
-    type: 'user' | 'org';
-  }
-  
-  const [selectedOrg, setSelectedOrg] = useState<SearchOption[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [repoList, setRepoList] = useState<any[]>([]);
@@ -68,27 +56,22 @@ const Main: React.FC<Props> = ({ children }) => {
   const [showResults, setShowResults] = useState(false);
 
   const handleSearch = async () => {
-    if (!selectedOrg.length || !searchTerm.trim()) {
-      alert('Please select whether you are searching by user or organization, and enter a name.');
+    if (!searchTerm.trim()) {
+      alert('Please enter an organization name');
       return;
     }
-  
+
     setIsLoading(true);
     setRepoDetails(null);
     setShowResults(false);
-  
+
     try {
-      const selectedOption = selectedOrg[0];
-  
-      const repos =
-        selectedOption.type === 'org' 
-          ? await fetchReposByOrg(searchTerm.trim())
-          : await fetchReposByUser(searchTerm.trim());
-  
+      const repos = await fetchReposByOrg(searchTerm.trim());
       setRepoList(repos);
       setShowResults(true);
     } catch (err) {
       console.error('API call failed:', err);
+      alert(`Failed to find organization: ${searchTerm}`);
     } finally {
       setIsLoading(false);
     }
@@ -100,10 +83,7 @@ const Main: React.FC<Props> = ({ children }) => {
 
       <header className="app-header">
         <div className="app-header-controls">
-        <MultiDropdown
-          onSelect={(selectedOptions) => setSelectedOrg(selectedOptions)}
-          />
-
+          {/* Убрали MultiDropdown */}
         </div>
       </header>
 
@@ -112,7 +92,7 @@ const Main: React.FC<Props> = ({ children }) => {
           <div className="org-search-box">
             <Input
               type="text"
-              placeholder="Search repository..."
+              placeholder="Enter organization name..."
               className="org-search-input"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -121,8 +101,7 @@ const Main: React.FC<Props> = ({ children }) => {
               }}
             />
             <Button className="org-search-button" onClick={handleSearch}>
-              <>
-              </>
+              <></>
             </Button>
           </div>
 
@@ -131,36 +110,36 @@ const Main: React.FC<Props> = ({ children }) => {
           {!isLoading && showResults && (
             <>
               {repoDetails ? (
-                <RepoDetails  repo={repoDetails} onBack={() => setRepoDetails(null)} />
+                <RepoDetails repo={repoDetails} onBack={() => setRepoDetails(null)} />
               ) : (
                 <div className="repo-list">
-                {repoList.map((repo) => (
-                  <Card
-                    key={repo.id}
-                    image={repo.owner.avatar_url}
-                    title={repo.name}
-                    subtitle={repo.owner.login}
-                    stars={repo.stargazers_count}
-                    updatedAt={new Date(repo.updated_at).toLocaleDateString()}
-                    onClick={async () => {
-                      try {
-                        const details = await fetchRepoDetails(repo.owner.login, repo.name);
-                        setRepoDetails(details);
-                      } catch (e) {
-                        console.error(e);
-                      }
-                    }}
-                  />
-                ))}
-              </div>
+                  {repoList.map((repo) => (
+                    <Card
+                      key={repo.id}
+                      image={repo.owner.avatar_url}
+                      title={repo.name}
+                      subtitle={repo.owner.login}
+                      stars={repo.stargazers_count}
+                      updatedAt={new Date(repo.updated_at).toLocaleDateString()}
+                      onClick={async () => {
+                        try {
+                          const details = await fetchRepoDetails(repo.owner.login, repo.name);
+                          setRepoDetails(details);
+                        } catch (e) {
+                          console.error(e);
+                        }
+                      }}
+                    />
+                  ))}
+                </div>
               )}
             </>
           )}
-        {children}
+          {children}
         </div>
       </main>
     </div>
   );
 };
 
-export default Main
+export default Main;
